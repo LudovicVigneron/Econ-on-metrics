@@ -1,4 +1,4 @@
-title: Strata by HTML5 UP
+title: Econ on metrics
 description: >
   **I am Strata**, a super simple
   responsive site template freebie
@@ -16,7 +16,7 @@ pinterest_username:
 flickr_username:
 github_username:  "#"
 feed_icon: rss
-email: "#"
+email: ludovic.vigneron@univ-valenciennes.fr
 gems: [jekyll-paginate]
 paginate_path: "/page/:num/"
 paginate: 5
