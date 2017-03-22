@@ -19,4 +19,4 @@ feed_icon: rss
 email: ludovic.vigneron@univ-valenciennes.fr
 gems: [jekyll-paginate]
 paginate_path: "/page/:num/"
-paginate: 5
+paginate: 3
