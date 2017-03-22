@@ -1,0 +1,107 @@
+---
+title: "Exercice_4_3"
+author: "Ludovic Vigneron"
+date: "17 mars 2017"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<p align="justify">Dans le cadre de cet exercice, il vous est demandé de télécharger les cours journalier sur les trois dernières années des actions faisant actuellement (au 17 mars 2017 dans cet exemple) partie de l'indice CAC 40  en utilisant le wrapper API **BatchGetSymbols**.</p>
+
+<p align="justify">Celui-ci est composé des 40 plus grosses capitalisations boursières flottantes (le volume des actions détenu dans une optique d'échange et non de contrôle) des entreprises cotées sur la place de Paris. Sa composition est régulièrement corrigée de manière à tenir compte de l'évolution des valorisations, de l'arrivé de nouveaux titres important et de la disparition de certains. Les décisions en la matière sont prises par le conseil scientifique des indices qui se réunit au moins 4 fois par an. Les réunions de ce conseil ne sont pas annoncées à l'avance.</p>
+
+<p align="justify">Il a été créé le 31 décembre 1987. Date à laquelle, il prend la valeur 1000. Son code ISIN est FR0003500008 et son ticker ^FCHI. L'évolution de sa valeur ne prend pas en compte le réinvestissement des dividendes.</p>
+
+## Obtenir les tickers des entreprises composant le CAC 40. 
+
+<p align="justify">Dans la mesure où l'API que nous allons utiliser fonctionne à partir des Tickers, la première étape du travail consiste donc à obtenir l'ensemble des Tickers pour les titres composant l'indice à notre date de référence (pour moi le 17 mars 2017).</p> 
+
+<p align="justify">Pour cela, nous chargerons un fichier Excel les contenant à partir du site https://www.abcbourse.com/download/libelles.aspx. Chargez la page dans votre navigateur, puis cochez CAC40 dans la rubrique "Composition des indices". Terminez l'opération en cliquant sur télécharger.</p>
+
+<p align="justify">Vous pouvez alors Copier le fichier obtenu "libelles.csv" dans votre dossier de travail et charger son contenu dans R grâce à **read.csv()** en précisant que le séparateur retenu est le ';'. Nommez la data frame obtenue **libelles** et visualisez en les 5 premières lignes.</p>
+
+```{r chunck_1}
+libelles<-read.csv('libelles.csv',sep=';')
+head(libelles)
+```
+
+<p align="justify">**libelles** contient les code ISIN, nom et ticker des 40 entreprises composant l'indice. Nous ne sommes intéressés que par le dernier élément. Créons donc un vecteur de type 'character' nommé tickers qui le reprendra seul. Ajoutons à ce vecteur le suffixe '.PA' afin d'être sûr que l'extraction se fera bien sur les données associées à la place de Paris grâce à la fonction **paste()**. Veillons à ce que, ce faisant, aucun espace ne se glisse dans l'expression du ticker. Pour cela, utilisons la fonction **gsub()**.</p>
+
+```{r chunck_2}
+tickers<-gsub(" ","",paste(as.character(libelles$ticker),'.PA'))
+tickers
+```
+
+## Charger les cours des actions sur trois ans
+
+<p align="justify">Maintenant que nous avons notre liste de ticker nous pouvons utiliser notre wrapper d'API pour obtenir les cours de bourses associés à chaque titre entre aujourd'hui (hiers le 16 mars 2017) et il y a trois ans (16 mars 2014).Pour cela commençons par chager le package **BatchGetSymbols**. Puis utilisons notre vecteur tickers dans la fonction d'extraction **BatchGetSymbols()**.</p>
+
+```{r chunk_3}
+library(BatchGetSymbols)
+Extraction_1<-BatchGetSymbols(tickers=tickers,first.date = Sys.Date()-(3*365),last.date = Sys.Date())
+
+```
+
+<p align="justify">Durant l'extraction, R vous renvoie des informations sur l'efficacité de la requête et le nombre d'éléments qu'il est parvenu à télécharger. On voit que certains éléments ont posé problème. Cette information est importante mais incomplète. Lorsque la quantité de données pour un titre est trop faible par rapport à ce qui a été demandé, celui-ci est exclu du résultat. Ainsi, les titres pour lesquels le nombre de jours de cotations disponibles est trop faible par rapport à l'objectif des 3 trois ont été exclus. Pour tirer un réel bilan de l'extraction réalisée, examinons de plus près les données obtenues. Celles-ci sont stockées dans une liste contenant deux data frames. La première, nommée df.control, contient les éléments de diagnostique à examiner. La seconde, df.tikckers, contient les données extraites. Après avoir créé un objet spécifique pour contenir df.control. Affichons-la de manière à réaliser notre propre diagnostique et décider des mesures à prendre pour obtenir les informations désirées.</p> 
+
+```{r chunk_4}
+control_ext<-Extraction_1$df.control
+## nous renommons la dernier variable de la data frame de manière à faciliter l'affichage.
+colnames(control_ext)[6]<-'decision'
+control_ext
+```
+
+<p align="justify">On note qu'il y a 4 titres pour lesquels la décision a été OUT. Ils ont été exclus de l'extraction. Mais voyons cela plus en détail en demandant à R de compter les cas d'exclusion en fonction de leurs causes (non trouvé ou pas assez de données pour être considéré) puis pour chacun d'eux de lister les tickers concernés.</p>
+
+```{r chunk_5}
+exclusion<-control_ext[which(control_ext$decision=="OUT"),]
+paste("-nombre d'exclusions:",length(exclusion$decision))
+exclusion
+exclusion_not_found<-as.character(exclusion$ticker[which(exclusion$download.status=='NOT OK')])
+paste('- tickers non trouvés:',length(exclusion_not_found),"=>",toString(exclusion_not_found))
+exclusion_found<-as.character(exclusion$ticker[which(exclusion$download.status=='OK')])
+paste("- tickers trouvés mais il n'y a pas assez de données:",length(exclusion_found),"=>",toString(exclusion_found))
+```
+
+<p align="justify">Commençons par traiter la question des tickers non trouvé. Retrouvons les noms de ces entreprises grâce à la data frame **libelles**. Pour cela, suprimons le suffixe '.PA' et croissons **libelles** et **exclusion_not_found**.</p>
+
+```{r chunk_6}
+ticker<-gsub('.PA','',exclusion_not_found)
+c<-c()
+for(i in ticker){
+        b<-which(libelles$ticker==i)
+        c<-c(c,b)}
+libelles[c,]
+tick_comp_1<-libelles[c,]$ticker
+```
+
+<p align="justify">Pour Solvay et Unibail-Rodamco les tickers founis n'ont pas été trouvé. Essayons la version sur le suffixe '.PA'. Nommons le résulat de la nouvelle requête Extraction_2 et examinons les données obtenues.</p>
+
+```{r chunk_7}
+Extraction_2<-BatchGetSymbols(tickers=tick_comp_1,first.date = Sys.Date()-(3*365),last.date = Sys.Date())
+Extraction_2$df.control
+```
+
+<p align="justify">Celles-ci apparaissent suffisantes pour être retenues.Considérons le problème pour ces deux actions réglé. Voyons maintenant les deux exclusions faute de données suffisantes: LHN et NOKIA.</p>
+
+```{r chunk_8}
+control_ext[which(control_ext$ticker=='LHN.PA'|control_ext$ticker=='NOKIA.PA'),]
+```
+
+<p align="justify">Il s'agit des titres LafargeHolcim et Nokia pour lesquelles le nombre d'observations disponibles n'est respectivement que de 441 pour LafargeHolcim et 347 pour Nokia ce qui représente 56% et 44% de l'objectif de collecte de données.Chargeons tout de même ces données. Pour cela, modifions l'interval de temps sur lequel porte l'extraction.</p>
+
+```{r chunk_9}
+LHN<-BatchGetSymbols(tickers='LHN.PA',first.date = Sys.Date()-(3*365*0.56),last.date = Sys.Date())
+NOKIA<-BatchGetSymbols(tickers='NOKIA.PA',first.date = Sys.Date()-(3*365*0.44),last.date = Sys.Date())
+```
+
+<p align="justify">Maintenant que nous avons l'ensemble des données réunissons les dans une même data frame nommée Cours_comp_CAC40. Ceci fait, créons pour finir un fichier .csv pour recueillir l'ensemble des données obtenues. Appelons-le 'Cours_comp_CAC40.csv'. Utilisez pour cela la fonction **write.table()**.</p>
+
+```{r chunk_10}
+Cours_comp_CAC40<-rbind(Extraction_1$df.tickers,Extraction_2$df.tickers,
+                        LHN$df.tickers,NOKIA$df.tickers)
+write.table(Cours_comp_CAC40,'Cours_comp_CAC40.csv',sep=";")
+```
+
