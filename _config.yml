@@ -1,8 +1,10 @@
 title: Econ on metrics
 description: >
-  **I am Strata**, a super simple
-  responsive site template freebie
-  crafted by [HTML5 UP](http://html5up.net).
+  Econ-on-metrics est un projet de blogging
+  scientifique générale discutant d'applications
+  statistiques principalement dans le domaine de
+  l'économétrie. Avec une attention particulière
+  sur l'utilisation du logiciel R.
 copyright: Untitled
 sass:
   sass_dir: assets/sass
