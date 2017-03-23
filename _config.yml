@@ -1,8 +1,9 @@
 title: Econ on metrics
 description: >
-  Econ-on-metrics est un projet de blogging scientifique général discutant de statistiques
-  et d'économétriques appliquées à différent domaines comme la **Finance**, **l'Environnement** et l'**Economie** en générale.</p>
-  Avec une attention particulière sur l'utilisation du logiciel **R**.
+  **Econ-on-metrics** est un projet de blogging scientifique général discutant de statistiques
+  appliquées à différent domaines comme la **Finance**, **l'Environnement** et l'**Economie** en générale.
+  Avec une attention particulière sur l'utilisation du logiciel **R**. Je suis Ludovic Vigneron, Maître de Conférence
+  à l'Université de Valenciennes membre du laboratoire IDP.
 copyright: Untitled
 sass:
   sass_dir: assets/sass
