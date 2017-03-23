@@ -1,10 +1,7 @@
 title: Econ on metrics
 description: >
-  Econ-on-metrics est un projet de blogging
-  scientifique générale discutant d'applications
-  statistiques principalement dans le domaine de
-  l'économétrie. Avec une attention particulière
-  sur l'utilisation du logiciel R.
+  Econ-on-metrics est un projet de blogging scientifique générale discutant d'applications statistiques principalement dans le domaine de
+  l'économétrie. Avec une attention particulière sur l'utilisation du logiciel R.
 copyright: Untitled
 sass:
   sass_dir: assets/sass
