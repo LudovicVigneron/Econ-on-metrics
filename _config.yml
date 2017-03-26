@@ -20,4 +20,4 @@ feed_icon: rss
 email: ludovic.vigneron@univ-valenciennes.fr
 gems: [jekyll-paginate]
 paginate_path: "/Econ-on-metrics/page/:num/"
-paginate: 3
+paginate: 5
