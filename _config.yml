@@ -8,7 +8,7 @@ copyright: Untitled
 sass:
   sass_dir: assets/sass
 url: https://ludovicvigneron.github.io/Econ-on-metrics/ 
-baseurl: "/Econ-on-metrics"
+baseurl: /Econ-on-metrics
 disqus_shortname: stratajekylldemo
 facebook_username:
 twitter_username: "#"
@@ -20,5 +20,5 @@ github_username:  "#"
 feed_icon: rss
 email: ludovic.vigneron@univ-valenciennes.fr
 gems: [jekyll-paginate]
-paginate_path: "/Econ-on-metrics/page/:num/"
+paginate_path: "/Econ-on-metrics/page/:num/index.html"
 paginate: 2
