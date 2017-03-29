@@ -5,7 +5,7 @@ description: >
   **Ludovic Vigneron**, Maître de Conférences à l'Université de Valenciennes membre du laboratoire IDP.
   **Econ-on-Metrics** est un projet de blogging scientifique général discutant de statistiques
   appliquées à l'**Economie**, la **Finance** et l'**Environnement**. Une large place y est fait
-  à l'utilisation de **R**. test11a
+  à l'utilisation de **R**.
 copyright: Untitled
 sass:
   sass_dir: assets/sass
@@ -14,12 +14,9 @@ disqus_shortname: stratajekylldemo
 facebook_username:
 twitter_username: "#"
 linkedin_username: "#"
-instagram_username:
-pinterest_username:
-flickr_username:
 github_username:  "#"
 feed_icon: rss
 email: ludovic.vigneron@univ-valenciennes.fr
 gems: [jekyll-paginate]
-paginate_path: "page/:num"
+paginate_path: "/Econ-on-metrics/page/:num"
 paginate: 2
