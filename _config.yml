@@ -7,7 +7,7 @@ description: >
 copyright: Untitled
 sass:
   sass_dir: assets/sass
-siteurl: https://ludovicvigneron.github.io/Econ-on-metrics/ 
+url: https://ludovicvigneron.github.io/ 
 baseurl: /Econ-on-metrics
 disqus_shortname: stratajekylldemo
 facebook_username:
