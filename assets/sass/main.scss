@@ -1530,5 +1530,15 @@
 	position : absolute;
 }
 
+.menu dt{
+	display: block;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	border-right: 1px solid #CCCCCC;
+	border-left: 1px solid #CCCCCC;
+	border-top: 1px solid #CCCCCC;
+	cursor: pointer;
+}
 
 
