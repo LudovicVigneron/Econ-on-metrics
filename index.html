@@ -2,11 +2,43 @@
 layout: default
 image: /images/fulls/01.jpg
 ---
-<h1>ludovic</h1>
+<div id="menu" class="menu">
+	<dl>
+		<dt>Menu 1</dt>
+		<dd>
+			<ul>
+				<li><a ref="">Sous-Menu1a</a></li>
+				<li><a ref="">Sous-Menu1b</a></li>
+				<li><a ref="">Sous-Menu1c</a></li>
+				<li><a ref="">Sous-Menu1d</a></li>
+			</ul>
+		</dd>
+	</dl>
+	<dl>
+		<dt>Menu 2</dt>
+		<dd>
+			<ul>
+				<li><a ref="">Sous-Menu2a</a></li>
+				<li><a ref="">Sous-Menu2b</a></li>
+				<li><a ref="">Sous-Menu2c</a></li>
+			</ul>
+		</dd>
+	</dl>
+	<dl>
+		<dt>Menu 3</dt>
+		<dd>
+			<ul>
+				<li><a ref="">Sous-Menu3a</a></li>
+				<li><a ref="">Sous-Menu3b</a></li>
+				<li><a ref="">Sous-Menu3</a></li>
+				<li><a ref="">Sous-Menu3d</a></li>
+			</ul>
+		</dd>
+	</dl>
+</div>
+
 
 <!-- This loops through the paginated posts -->
-  
-  <h1>ludovic</h1>
 {% for post in paginator.posts %}
   <section>
     <h2><a href="{{ post.url | prepend: site.github.url }}">{{ post.title }}</a></h2>
